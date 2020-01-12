@@ -1,7 +1,11 @@
 import pkg from './package'
 
+const config = {
+  WS: process.env.NODE_ENV !== 'production' ? 'https://localhost:5001/api' : ''
+}
+
 export default {
-  mode: 'universal',
+  mode: 'spa',
 
   /*
   ** Headers of the page
@@ -15,6 +19,7 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      ,{ rel: 'stylesheet', href:"https://fonts.googleapis.com/icon?family=Material+Icons"}
     ]
   },
 
@@ -34,6 +39,11 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    {src:'~/plugins/axios-https.js'},
+    {src:'~/plugins/global-components.js'},
+    {src:'~/plugins/datepicker.client.js'},
+    {src:'~/plugins/calendar.client.js'},
+    {src:'~/plugins/utils.js'}
   ],
 
   /*
@@ -49,9 +59,11 @@ export default {
   ** Axios module configuration
   */
   axios: {
-    // See https://github.com/nuxt-community/axios-module#options
+    baseURL: config.WS
   },
-
+  env:{
+    baseURL: config.WS    
+  },
   /*
   ** Build configuration
   */

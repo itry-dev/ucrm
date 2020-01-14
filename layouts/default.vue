@@ -39,13 +39,13 @@
             <ul class="nav flex-column">
               <li class="nav-item">
                 <nuxt-link to="/customers" class="nav-link" href="#">
-                  <i class="material-icons">format_list_bulleted</i>
+                  <i class="material-icons pr-2">format_list_bulleted</i>
                   Customers
                 </nuxt-link>
               </li>
               <li class="nav-item">
                 <nuxt-link to="/customers/customer" class="nav-link" href="#">
-                  <i class="material-icons">control_point</i>
+                  <i class="material-icons pr-2">control_point</i>
                   Add Customer
                 </nuxt-link>
               </li>
@@ -57,25 +57,25 @@
           <ul class="nav flex-column mb-2">
             <li class="nav-item">
               <nuxt-link to="/projects" class="nav-link" href="#">
-                <i class="material-icons">format_list_bulleted</i>
+                <i class="material-icons pr-2">format_list_bulleted</i>
                 Projects
               </nuxt-link>
             </li>
             <li class="nav-item">
               <nuxt-link to="/projects/project" class="nav-link" href="#">
-                <i class="material-icons">control_point</i>
+                <i class="material-icons pr-2">control_point</i>
                 Add Project
               </nuxt-link>
             </li>
             <li class="nav-item">
               <nuxt-link to="/projects/workedhours/" class="nav-link" href="#">
-                <i class="material-icons">format_list_bulleted</i>
+                <i class="material-icons pr-2">format_list_bulleted</i>
                 Worked Hours
               </nuxt-link>
             </li>
             <li class="nav-item">
               <nuxt-link to="/projects/workedhours/hours" class="nav-link" href="#">
-                <i class="material-icons">control_point</i>
+                <i class="material-icons pr-2">control_point</i>
                 Add Worked Hours
               </nuxt-link>
             </li>

@@ -1,33 +1,54 @@
 <template>
+<div>
+    <Feedback :feedback="feedback" :isErrMsg="isErrMsg" />
+
     <full-calendar 
     :events="workedHours"
     @has-clicked-date="hasClickedDate"
     @has-clicked-workedhours="hasClickedWorkedHours" />
+</div>
 </template>
 <script>
 import c from '@/core/costants'
+import Feedback from '@/components/UI/Feedback.vue'
 
 export default {
     name:'WorkedHoursList'
     ,data(){
         return{
-            message:null,
-            results:[],
-            workedHours:[]
+            message:null
+            ,results:[]
+            ,workedHours:[]
+            ,feedback:''
+            ,isErrMsg:false
         }
+    }
+    ,components:{
+        Feedback
     }
     ,mounted(){
         var clazz=this
-        return this.$axios.$get('/workedhours')
+        clazz.feedback='loading data'
+
+        this.$axios.$get('/workedhours')
         .then((response) => {
 
             response.forEach(function(el) {
-                clazz.workedHours.push({title:el.hours, date:el.date, whId:el.id})
+                clazz.workedHours.push(
+                    {
+                        title:el.project.customer.companyName+': '+el.hours
+                        ,start:el.date
+                        ,end:el.date
+                        ,whId:el.id
+                        ,color: el.project.customer.companyName.substring(0,2)==='24' ? '#f00' : '#00f'/*TODO ovviamente non così, va un colore diverso per ogni cliente*/
+                    })
             })
 
+            clazz.feedback=''
         })
-        .catch(e => {
-            throw e
+        .catch((e) => {
+            clazz.isErrMsg=true
+            clazz.feedback=this.$utils.getError(e)
         })
     }
     ,methods:{

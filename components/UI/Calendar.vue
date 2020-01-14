@@ -5,6 +5,7 @@
     :events="events"
     :showNonCurrentDates="false"
     :displayEventTime="false"
+    eventTextColor="#fff"
     :firstDay="1"
     @dateClick="hasClickedDate"
     @eventClick="hasSelectEvent" />

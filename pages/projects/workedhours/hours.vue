@@ -39,9 +39,13 @@ export default {
     }
     ,methods:{
         loadWorkedHours(id){
+            this.isErrMsg=false
+            this.feedback='loading data'
+
             this.$axios.$get(`/workedhours/${id}`)
             .then((response) => {
                 this.workedHours=response
+                this.feedback=''
             })
             .catch(e => {
                 this.isErrMsg=true

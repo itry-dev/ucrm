@@ -6,6 +6,7 @@ export default Object.freeze({
         HAS_CLICKED_DATE:'has-clicked-date'
         ,HAS_CLICKED_WORKEDHOURS:'has-clicked-workedhours'
         ,HAS_CLICKED_DEL_WH:'has-clicked-del-wh'
+        ,HAS_CLICKED_SAVE_WH:'has-clicked-save-wh'
     }
     ,URLS:{
         TO_ADD_WORKEDHOURS:'/projects/workedhours/hours'

@@ -6,8 +6,8 @@
             <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
         </div>
         <div 
-        :class="{'d-none' : opSentData===0, 'alert alert-danger' : opSentData===-1, 'alert alert-success' : opSentData===1 }">
-            <span v-html="feedback"></span>
+        :class="{'d-none' : autoCompleteErrors==='', 'alert alert-danger' : autoCompleteErrors !== ''}">
+            <span v-html="autoCompleteErrors"></span>
         </div>
         <!-- project search --> 
         <div class="form-group" v-if="!workedHours.project">
@@ -70,10 +70,9 @@ export default {
     ,data(){
         return{
             isUploading:false,
-            opSentData:0,
-            feedback:'',
             projects:[],
-            project:null
+            project:null,
+            autoCompleteErrors:''
         }
     }
     ,props:{
@@ -83,29 +82,8 @@ export default {
         }
     }
     ,methods:{
-        saveData(){            
-            this.isUploading=true
-
-            if (this.workedHours && this.workedHours.id !== ''){
-                return this.$axios.$put(`/workedhours/${this.workedHours.id}`
-                ,this.workedHours)
-                .then(response => {
-                    this.handleOkServerResponse(response)
-                })
-                .catch(e => {
-                    this.handleKoServerResponse(e)
-                })
-            }else{
-                return this.$axios.$post('/workedhours'
-                ,this.workedHours)
-                .then(response => {
-                    this.handleOkServerResponse(response)
-                })
-                .catch(e => {
-                    this.handleKoServerResponse(e)
-                })
-
-            }
+        saveData(){  
+             this.$emit(c.EMIT_ACTIONS.HAS_CLICKED_SAVE_WH, this.workedHours)          
         }
         ,deleteData(){
             this.$bvModal.msgBoxConfirm('Please confirm that you want to delete this entry.', {
@@ -127,24 +105,14 @@ export default {
             .catch(err => {
                 console.log(err)
             })
-        }
-        ,handleOkServerResponse(response){
-            this.isUploading=false
-            this.opSentData=1
-            this.feedback='Hours saved' + (typeof response.id !== 'undefined' ? ' new Id: '+response.id : '')
-        }
-        ,handleKoServerResponse(e){
-            this.isUploading=false
-            this.opSentData=-1
-            this.feedback='An error occured while saving data:<br />'+this.$utils.getError(e)
-        }
+        }        
         ,getProject(val){
             this.$axios.$get('/projects?q='+val)
             .then((response) => {
                 this.projects=response
             })
             .catch((e) => {
-                this.feedback=this.$utils.getError(e)
+                this.autoCompleteErrors=this.$utils.getError(e)
             })
         }
         ,setProject(result){

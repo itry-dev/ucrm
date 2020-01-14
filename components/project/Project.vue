@@ -70,22 +70,23 @@ export default {
     ,props:{
         project:{
             type:Object
+            ,requred:false
         }
     }
     ,mounted(){
         
-        if (this.project){
-            this.tempP.id=this.project.id
-            this.tempP.name=this.project.name
-            this.tempP.startDate=this.project.startDate
-            this.tempP.endDate=this.project.endDate
-            this.tempP.totalAmount=this.project.totalAmount
-            this.tempP.hourlyRate=this.project.hourlyRate
-            this.tempP.deleted=this.project.deleted
-            this.tempP.customerId=this.project.customer.id
+        // if (this.project){
+        //     this.tempP.id=this.project.id
+        //     this.tempP.name=this.project.name
+        //     this.tempP.startDate=this.project.startDate
+        //     this.tempP.endDate=this.project.endDate
+        //     this.tempP.totalAmount=this.project.totalAmount
+        //     this.tempP.hourlyRate=this.project.hourlyRate
+        //     this.tempP.deleted=this.project.deleted
+        //     this.tempP.customerId=this.project.customer.id
 
-            this.customer=this.project.customer
-        }
+        //     this.customer=this.project.customer
+        // }
         
     }
     ,methods:{

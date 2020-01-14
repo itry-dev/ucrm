@@ -32,7 +32,7 @@ export default {
     }
     ,methods:{
         hasClickedDate(arg){
-            this.$router.push({name:'projects-workedhours-hours', params: { date:arg}})
+            this.$router.push({name:'projects-workedhours-hours', params: { selectedDate:arg}})
         }
         ,hasClickedWorkedHours(e){
             this.$router.push(`${c.URLS.TO_ADD_WORKEDHOURS}?id=${e}`)

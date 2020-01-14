@@ -3,6 +3,9 @@
     defaultView="dayGridMonth" 
     :plugins="calendarPlugins"
     :events="events"
+    :showNonCurrentDates="false"
+    :displayEventTime="false"
+    :firstDay="1"
     @dateClick="hasClickedDate"
     @eventClick="hasSelectEvent" />
 </template>

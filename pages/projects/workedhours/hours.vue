@@ -1,28 +1,20 @@
 <template>
     <div>
-        <div 
-        :class="{'d-none' : feedback==='', 'alert alert-danger' : isErrMsg, 'alert alert-success' : !isErrMsg}">
-            <span v-html="feedback"></span>
-        </div>
+        <Feedback :feedback="feedback" :isErrMsg="isErrMsg" />
         <WorkedHours
         v-if="notHasDeleted" 
         :workedHours="workedHours"
+        @has-clicked-save-wh="saveWH"
         @has-clicked-del-wh="deleteWH" />
     </div>    
 </template>
 <script>
 import WorkedHours from '@/components/project/WorkedHours.vue'
+import Feedback from '@/components/UI/Feedback.vue'
 import c from '@/core/costants'
-/*import { mapGetters } from 'vuex'*/
 
 export default {
     name:'WorkedHoursPage'
-    /*,middleware:'workedhours'
-     ,computed:{
-        ...mapGetters(c.WORKED_HOURS_STORE,{
-            workedHours:'getHour'
-        })
-    } */
     ,data(){
         return{
             id:''
@@ -43,6 +35,7 @@ export default {
     }
     ,components:{
         WorkedHours
+        ,Feedback
     }
     ,methods:{
         loadWorkedHours(id){
@@ -51,6 +44,7 @@ export default {
                 this.workedHours=response
             })
             .catch(e => {
+                this.isErrMsg=true
                 this.feedback=this.$utils.getError(e)
             })
         }
@@ -64,11 +58,39 @@ export default {
             this.workedHours.projectId=''
             this.workedHours.project=null            
         }
+        ,saveWH(wh){
+            if (this.workedHours && this.workedHours.id !== ''){
+                this.$axios.$put(`/workedhours/${this.workedHours.id}`
+                ,this.workedHours)
+                .then(response => {
+                    this.isErrMsg=false
+                    this.feedback=response
+                })
+                .catch(e => {
+                    this.isErrMsg=true
+                    this.feedback=this.$utils.getError(e)
+                })
+            }else{
+                const newWh = Object.assign({}, this.workedHours);
+                delete newWh.id;
+
+                this.$axios.$post('/workedhours'
+                ,newWh)
+                .then(response => {
+                    this.isErrMsg=false
+                    this.feedback=response
+                })
+                .catch(e => {
+                    this.isErrMsg=true
+                    this.feedback=this.$utils.getError(e)
+                })
+
+            }
+        }
         ,deleteWH(id){
             this.$axios.$delete(`/workedhours/${id}`)
             .then((response) => {
                 this.isErrMsg=false
-                this.notHasDeleted=false
                 this.feedback='Workedhours deleted'
             })
             .catch(e => {
@@ -80,6 +102,10 @@ export default {
     ,mounted(){
         if (this.$route.query.id){
             this.loadWorkedHours(this.$route.query.id)
+        }
+
+        if (this.$route.params && this.$route.params.selectedDate){
+            this.workedHours.date=this.$route.params.selectedDate
         }
     }    
     ,beforeRouteUpdate(to, from, next){

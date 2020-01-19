@@ -1,6 +1,6 @@
 <template>
 <div>
-    <Feedback :feedback="feedback" :isErrMsg="isErrMsg" />
+    <Feedback :feedback="feedback" :isErrMsg="isErrMsg" :isLoading="isLoading" />
 
     <full-calendar 
     :events="workedHours"
@@ -21,6 +21,7 @@ export default {
             ,workedHours:[]
             ,feedback:''
             ,isErrMsg:false
+            ,isLoading:false
         }
     }
     ,components:{
@@ -28,7 +29,7 @@ export default {
     }
     ,mounted(){
         var clazz=this
-        clazz.feedback='loading data'
+        clazz.isLoading=true
 
         this.$axios.$get('/workedhours')
         .then((response) => {
@@ -36,17 +37,18 @@ export default {
             response.forEach(function(el) {
                 clazz.workedHours.push(
                     {
-                        title:el.project.customer.companyName+': '+el.hours
+                        title:el.project.customer.companyName.substring(0,5).toUpperCase()+': '+el.hours
                         ,start:el.date
                         ,end:el.date
                         ,whId:el.id
-                        ,color: el.project.customer.companyName.substring(0,2)==='24' ? '#f00' : '#00f'/*TODO ovviamente non così, va un colore diverso per ogni cliente*/
+                        /*,color: ...*/
                     })
             })
 
-            clazz.feedback=''
+            clazz.isLoading=false
         })
         .catch((e) => {
+            clazz.isLoading=false
             clazz.isErrMsg=true
             clazz.feedback=this.$utils.getError(e)
         })

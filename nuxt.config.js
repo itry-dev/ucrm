@@ -43,7 +43,9 @@ export default {
     {src:'~/plugins/global-components.js'},
     {src:'~/plugins/datepicker.client.js'},
     {src:'~/plugins/calendar.client.js'},
-    {src:'~/plugins/utils.js'}
+    {src:'~/plugins/utils.js'},
+    {src:'~/plugins/apiManager.js'},
+    {src:'~plugins/format-currency.js'},
   ],
 
   /*

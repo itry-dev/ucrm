@@ -26,9 +26,7 @@
                 elenco ore da fatturare
             </li>
             <li>
-                <b>modifica ore:</b>
-                <br />tasto cancella
-                <br />nome del progetto e nome del cliente
+                colori differenti per ogni cliente
             </li>
         </ul>
         <hr />

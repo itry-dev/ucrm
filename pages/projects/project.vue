@@ -1,7 +1,10 @@
 <template>
 <div>
-    <Feedback :feedback="feedback" :isErrMsg="isErrMsg" />
-    <Project :project="project" />   
+    <Feedback :feedback="feedback" :isErrMsg="isErrMsg" :isLoading="isLoading" />
+
+    <Project 
+    :project="project"
+    @has-clicked-save-project="saveProject" />   
 </div>
 </template>
 <script>
@@ -10,12 +13,13 @@ import Project from '@/components/project/Project.vue'
 import c from '@/core/costants'
 
 export default {
-    name:'CustomerPage'
+    name:'ProjectPage'
     ,data(){
         return {
-            project:null
+            project:{}
             ,feedback:''
             ,isErrMsg:false
+            ,isLoading:false
         }
     }
     ,components:{
@@ -24,24 +28,53 @@ export default {
     }
     ,methods:{
         loadProject(id){
-            return this.$axios.$get(`/projects/${id}`)
+            this.$axios.$get(`/projects/${id}`)
             .then((response) => {
-                project=response
+                this.project=response
             })
             .catch(e => {
-                feedback = this.$utils.getError(e)
+                this.feedback = this.$utils.getError(e)
                 this.isErrMsg=true
             })
         }
         ,setEmptyObject(){
             this.project.id=''
-            // this.project.date=''
-            // this.project.hours=''
-            // this.project.hourlyRate=''
-            // this.project.atCustomerOffice=false
-            // this.project.additionalNotes=''
-            // this.project.projectId=''
-            // this.project.project=null            
+            this.project.name=''
+            this.project.startDate=''
+            this.project.endDate=''
+            this.project.totalAmount=''
+            this.project.additionalNotes=''
+            this.project.hourlyRate=''        
+        }
+        ,saveProject(project){
+            if (project && project.id !== ''){
+                this.$axios.$put(`/projects/${project.id}`
+                ,project)
+                .then(response => {
+                    this.isLoading=false
+                    this.isErrMsg=false
+                    this.feedback='New Project added!'
+                })
+                .catch(e => {
+                    this.isLoading=false
+                    this.isErrMsg=true
+                    this.feedback=this.$utils.getError(e)
+                })
+            }else{
+                this.$axios.$post(`/projects`
+                ,project)
+                .then(response => {
+                    this.isLoading=false
+                    this.isErrMsg=false
+                    this.feedback='Project updated!'
+                })
+                .catch(e => {
+                    this.isLoading=false
+                    this.isErrMsg=true
+                    this.feedback=this.$utils.getError(e)
+                })
+
+            }
         }
     }
     ,mounted(){

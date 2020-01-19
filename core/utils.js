@@ -34,6 +34,14 @@ export default $context => ({
         }else{
            console.log(error)
         }
-     }
+    }
+
+    ,getTimeZoneDate(date) {
+        if (typeof date ==='string') date = new Date(date)
+         
+        return date.getFullYear() + '/' + 
+        (date.getMonth() + 1 < 10 ? '0'+(date.getMonth() + 1) : date.getMonth() + 1) + '/' + 
+        (date.getDate() < 10 ? '0'+date.getDate() : date.getDate());
+    }
 
 });

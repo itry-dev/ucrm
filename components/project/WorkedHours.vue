@@ -1,14 +1,9 @@
 <template>
     <form>
         <h2>Worked Hours</h2>
-        <div 
-        :class="{'d-none':!isUploading, 'progress': isUploading}">
-            <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-        </div>
-        <div 
-        :class="{'d-none' : autoCompleteErrors==='', 'alert alert-danger' : autoCompleteErrors !== ''}">
-            <span v-html="autoCompleteErrors"></span>
-        </div>
+
+        <Feedback :feedback="autoCompleteErrors" :isErrMsg="true" />
+
         <!-- project search --> 
         <div class="form-group" v-if="!workedHours.project">
             <label for="name">Project Name</label>
@@ -33,7 +28,14 @@
         </div>
         <div class="form-group">
             <label for="date">Date</label> 
-            <DatePicker placeholder="DD/MM/YYYY" id="date" :bootstrap-styling="true" :full-month-name="true" format="dd/MM/yyyy" v-model="workedHours.date" />
+            <DatePicker 
+            placeholder="DD/MM/YYYY" 
+            :monday-first="true"
+            id="date" 
+            :bootstrap-styling="true" 
+            :full-month-name="true" 
+            format="dd/MM/yyyy"  
+            v-model="workedHours.date" />
         </div>
         <div class="form-group">
             <label for="hours">Hours</label>
@@ -64,12 +66,12 @@
 </template>
 <script>
 import c from '@/core/costants'
+import Feedback from '@/components/UI/Feedback.vue'
 
 export default {
     name:'WorkedHours'
     ,data(){
         return{
-            isUploading:false,
             projects:[],
             project:null,
             autoCompleteErrors:''
@@ -81,9 +83,13 @@ export default {
             ,required:false            
         }
     }
+    ,components:{
+        Feedback
+    }
     ,methods:{
-        saveData(){  
-             this.$emit(c.EMIT_ACTIONS.HAS_CLICKED_SAVE_WH, this.workedHours)          
+        saveData(){              
+            this.workedHours.date=this.$utils.getTimeZoneDate(this.workedHours.date)
+            this.$emit(c.EMIT_ACTIONS.HAS_CLICKED_SAVE_WH, this.workedHours)          
         }
         ,deleteData(){
             this.$bvModal.msgBoxConfirm('Please confirm that you want to delete this entry.', {
@@ -109,7 +115,11 @@ export default {
         ,getProject(val){
             this.$axios.$get('/projects?q='+val)
             .then((response) => {
-                this.projects=response
+                var data=[]
+                response.forEach(function(el) {
+                    data.push({id:el.id, name: el.customer.companyName+': '+el.name})
+                })
+                this.projects=data
             })
             .catch((e) => {
                 this.autoCompleteErrors=this.$utils.getError(e)

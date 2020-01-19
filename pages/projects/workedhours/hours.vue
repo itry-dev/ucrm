@@ -63,26 +63,25 @@ export default {
             this.workedHours.project=null            
         }
         ,saveWH(wh){
-            if (this.workedHours && this.workedHours.id !== ''){
-                this.$axios.$put(`/workedhours/${this.workedHours.id}`
-                ,this.workedHours)
+            if (wh && wh.id !== ''){
+                this.$axios.$put(`/workedhours/${wh.id}`
+                ,wh)
                 .then(response => {
                     this.isErrMsg=false
-                    this.feedback=response
+                    this.feedback='Data saved!'
                 })
                 .catch(e => {
                     this.isErrMsg=true
                     this.feedback=this.$utils.getError(e)
                 })
             }else{
-                const newWh = Object.assign({}, this.workedHours);
-                delete newWh.id;
+                delete wh.id;
 
                 this.$axios.$post('/workedhours'
-                ,newWh)
+                ,wh)
                 .then(response => {
                     this.isErrMsg=false
-                    this.feedback=response
+                    this.feedback='Data saved!'
                 })
                 .catch(e => {
                     this.isErrMsg=true

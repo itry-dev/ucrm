@@ -1,6 +1,7 @@
 <template>
   <div>
-    <span v-if="message !== ''">{{message}}</span>
+    <Feedback :feedback="message" :isErrMsg="isErrMsg" />
+
     <h4>Incomings for {{ new Date().toLocaleString('default', {month:'long'}) }}, {{year}}</h4>
     <!-- year and month filter -->
     <div class="pb-2">
@@ -36,6 +37,9 @@
               </div>
               <div class="pt-2">Worked Hours: {{summary.hours}}</div>
               <div class="pt-2">Total Amount: <b>{{summary.totalAmount | format}}</b></div>
+              <div class="pt-3" @click="downloadDetails(summary.projectId, year, month)">
+                Download details <i class="material-icons">cloud_download</i>
+              </div>
             </b-card-text>
           </b-card>
         </b-card-group>
@@ -59,7 +63,8 @@ export default {
             totalIncomings:0,
             year:0,
             month:0,
-            dateFilter:''
+            dateFilter:'',
+            isErrMsg:false
         }
     }
     ,mounted(){
@@ -67,7 +72,17 @@ export default {
       this.loadData()
     }
     ,methods:{
-      dateHasBeenCleared(){
+      downloadDetails(projectId, year, month){
+        this.$apiManager.doExportWorkedHoursDetails(projectId, year, month)
+        .then((response) => {
+
+        })
+        .catch((e) => {
+          this.isErrMsg=true
+          this.message=this.$utils.getError(e)
+        })
+      }
+      ,dateHasBeenCleared(){
         this.setInitialPeriod()
         this.loadData()
       }
@@ -95,11 +110,13 @@ export default {
 
               })
               .catch((e) => {
+                clazz.isErrMsg=true
                 clazz.message=this.$utils.getError(e)
               }) 
             });
         })
         .catch(e => {
+            clazz.isErrMsg=true
             clazz.message=this.$utils.getError(e)
         })
       }

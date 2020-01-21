@@ -44,7 +44,8 @@ export default {
             this.project.endDate=''
             this.project.totalAmount=''
             this.project.additionalNotes=''
-            this.project.hourlyRate=''        
+            this.project.hourlyRate=''
+            this.project.customer=null        
         }
         ,saveProject(project){
             if (project && project.id !== ''){

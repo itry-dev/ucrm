@@ -67,6 +67,9 @@ export default {
     ,components:{
         Feedback
     }
+    ,mounted(){
+        if (this.project && this.project.customer) this.customer=this.project.customer
+    }
     ,methods:{
         saveData(){
             this.$emit(c.EMIT_ACTIONS.HAS_CLICKED_SAVE_PROJECT, this.project)          

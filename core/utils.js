@@ -21,6 +21,8 @@ export default $context => ({
                         for(const property in error.response.data.errors) {
                             err += error.response.data.errors[property]+'<br />'
                         }
+                    }else if (error.response.data){
+                        err += error.response.data
                     }
                 }
 

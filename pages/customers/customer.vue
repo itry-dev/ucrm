@@ -8,7 +8,6 @@
 </template>
 <script>
 import Customer from '@/components/customer/Customer.vue'
-import Feedback from '@/components/UI/Feedback.vue'
 import c from '@/core/costants'
 
 export default {

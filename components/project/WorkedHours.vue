@@ -74,7 +74,8 @@ export default {
         return{
             projects:[],
             project:null,
-            autoCompleteErrors:''
+            autoCompleteErrors:'',
+            pickerDate:''
         }
     }
     ,props:{
@@ -85,6 +86,11 @@ export default {
     }
     ,components:{
         Feedback
+    }
+    ,mounted(){
+        if (this.workedHours.date===''){
+            this.workedHours.date=new Date()
+        }
     }
     ,methods:{
         saveData(){              

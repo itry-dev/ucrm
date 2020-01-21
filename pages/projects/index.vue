@@ -44,12 +44,13 @@ export default {
         }
     }
     ,mounted(){
-        this.$axios.$get('/projects')
-        .then((response) => {
-            this.projects=response
+
+        this.$apiManager.getProjects()
+        .then((response) => {            
+            this.projects=response.data
         })
-        .catch(e => {
-            message=this.$utils.getError(e)
+        .catch((e) => {
+            this.message=this.$utils.getError(e)
         })
     }
 }

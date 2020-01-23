@@ -1,4 +1,21 @@
 <template>
+<div>
+
+    <div>
+        <DatePicker 
+          class="mb-2 mr-sm-2 mb-sm-0"
+            :minimumView="'month'" 
+            :maximumView="'year'"
+            placeholder="see other dates" 
+            id="date" 
+            :bootstrap-styling="true" 
+            :full-month-name="true"
+            format="MMMM yyyy"
+            :clearButton="true"
+            @cleared="dateHasBeenCleared"
+            @selected="hasChangedDate" />
+    </div>
+
     <FullCalendar 
     defaultView="dayGridMonth" 
     :plugins="calendarPlugins"
@@ -7,8 +24,11 @@
     :displayEventTime="false"
     eventTextColor="#fff"
     :firstDay="1"
+    :header="{left:'',center:'',right:''}"
     @dateClick="hasClickedDate"
-    @eventClick="hasSelectEvent" />
+    @eventClick="hasSelectEvent"
+    @dayRender="onDayRender" />
+</div>
 </template>
 <script>
 import c from '@/core/costants'
@@ -36,6 +56,17 @@ export default {
         }
         ,hasSelectEvent(info){
             this.$emit(c.EMIT_ACTIONS.HAS_CLICKED_WORKEDHOURS, info.event.extendedProps.whId)            
+        }
+        ,onDayRender(dayRenderInfo){
+            if (dayRenderInfo.date.getUTCDay()===0 || dayRenderInfo.date.getUTCDay()===6){
+                dayRenderInfo.el.bgColor=c.CALENDAR_COLORS.WEEKEND
+            }
+        }
+        ,dateHasBeenCleared(){
+            this.$emit(c.EMIT_ACTIONS.HAS_CLEARED_DATE)            
+        }
+        ,hasChangedDate(d){
+            this.$emit(c.EMIT_ACTIONS.HAS_CHANGED_DATE, d)
         }
     }
 }

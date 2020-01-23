@@ -75,7 +75,14 @@ export default {
       downloadDetails(projectId, year, month){
         this.$apiManager.doExportWorkedHoursDetails(projectId, year, month)
         .then((response) => {
-
+          //TODO usare libreria esterna per problemi compatibilità altri browser
+          const url = window.URL.createObjectURL(new Blob([response.data], {type: 'application/octet-stream'}));
+          const link = document.createElement('a');
+          link.style.display='none'
+          link.href = url;
+          link.setAttribute('download', 'file.csv');
+          document.body.appendChild(link);
+          link.click();
         })
         .catch((e) => {
           this.isErrMsg=true
@@ -93,7 +100,9 @@ export default {
       }
       ,loadData(){
         var clazz=this
-        
+
+        clazz.message='Loading data...'
+
         clazz.$apiManager.getProjects()
         .then((response) => {            
           clazz.summaries=[]
@@ -114,6 +123,10 @@ export default {
                 clazz.message=this.$utils.getError(e)
               }) 
             });
+
+            if (!clazz.isErrMsg){
+              clazz.message=''
+            }
         })
         .catch(e => {
             clazz.isErrMsg=true

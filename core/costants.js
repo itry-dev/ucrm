@@ -8,11 +8,15 @@ export default Object.freeze({
         ,HAS_CLICKED_SAVE_CUSTOMER:'has-clicked-save-customer'
         ,HAS_CLICKED_SAVE_PROJECT:'has-clicked-save-project'
         ,HAS_CLICKED_DEL_WH:'has-clicked-del-wh'
-        ,HAS_CLICKED_SAVE_WH:'has-clicked-save-wh'        
+        ,HAS_CLICKED_SAVE_WH:'has-clicked-save-wh'
+        ,HAS_CLEARED_DATE:'has-cleared-date'
+        ,HAS_CHANGED_DATE:'has-changed-date'        
     }
     ,URLS:{
         TO_ADD_WORKEDHOURS:'/projects/workedhours/hours'
     }
-    
+    ,CALENDAR_COLORS:{
+        WEEKEND:'#ccc'
+    }
  })
  

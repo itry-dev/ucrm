@@ -80,7 +80,7 @@ export default {
           const link = document.createElement('a');
           link.style.display='none'
           link.href = url;
-          link.setAttribute('download', 'file.csv');
+          link.setAttribute('download', `${projectId}.csv`);
           document.body.appendChild(link);
           link.click();
         })

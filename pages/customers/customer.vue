@@ -21,8 +21,7 @@ export default {
         }
     }
     ,components:{
-        Customer,
-        Feedback
+        Customer
     }
     ,methods:{
         loadCustomer(id){

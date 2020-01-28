@@ -27,7 +27,13 @@ export default $context => ({
                 }
 
                 if (err===''){
-                    if (error.response.data.title) err=error.response.data.title
+                    if (error.response.data.title) {
+                        err=error.response.data.title
+                    }
+                    
+                    if (err===''){
+                        err=error.response.data
+                    }
                 }
                 
                 return err

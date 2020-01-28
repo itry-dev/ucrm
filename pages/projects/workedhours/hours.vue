@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Feedback :feedback="feedback" :isErrMsg="isErrMsg" />
+        <Feedback :feedback="feedback" :isErrMsg="isErrMsg" :isLoading="isLoading" />
         <WorkedHours
         v-if="notHasDeleted" 
         :workedHours="workedHours"
@@ -20,6 +20,7 @@ export default {
             id:''
             ,feedback:''
             ,isErrMsg:false
+            ,isLoading:false
             ,notHasDeleted:true
             ,workedHours:{
                 id:''
@@ -40,12 +41,12 @@ export default {
     ,methods:{
         loadWorkedHours(id){
             this.isErrMsg=false
-            this.feedback='loading data'
+            this.isLoading=true
 
             this.$axios.$get(`/workedhours/${id}`)
             .then((response) => {
                 this.workedHours=response
-                this.feedback=''
+                this.isLoading=false
             })
             .catch(e => {
                 this.isErrMsg=true
@@ -63,6 +64,8 @@ export default {
             this.workedHours.project=null            
         }
         ,saveWH(wh){
+            this.isLoading=true
+            
             if (wh && wh.id !== ''){
                 this.$axios.$put(`/workedhours/${wh.id}`
                 ,wh)
@@ -75,7 +78,6 @@ export default {
                     this.feedback=this.$utils.getError(e)
                 })
             }else{
-                delete wh.id;
 
                 this.$axios.$post('/workedhours'
                 ,wh)

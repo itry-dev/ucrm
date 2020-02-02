@@ -1,6 +1,5 @@
 <template>
 <div>
-
     <div>
         <DatePicker 
           class="mb-2 mr-sm-2 mb-sm-0"
@@ -17,6 +16,7 @@
     </div>
 
     <FullCalendar 
+    ref="fullCalendar"
     defaultView="dayGridMonth" 
     :plugins="calendarPlugins"
     :events="events"
@@ -66,6 +66,7 @@ export default {
             this.$emit(c.EMIT_ACTIONS.HAS_CLEARED_DATE)            
         }
         ,hasChangedDate(d){
+            this.$refs.fullCalendar.getApi().gotoDate(d)
             this.$emit(c.EMIT_ACTIONS.HAS_CHANGED_DATE, d)
         }
     }

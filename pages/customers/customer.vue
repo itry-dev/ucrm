@@ -14,7 +14,7 @@ export default {
     name:'CustomerPage'
     ,data(){
         return {
-            customer:[]
+            customer:{}
             ,feedback:''
             ,isErrMsg:false
             ,isLoading:false
@@ -25,10 +25,10 @@ export default {
     }
     ,methods:{
         loadCustomer(id){
-            this.$axios.$get(`/customers/${id}`)
+            this.$apiManager.getCustomer(id)
             .then((response) => {
                 this.isErrMsg=false
-                this.customer=response
+                this.customer=response.data
             })
             .catch((e) => {
                 this.isErrMsg=true
@@ -49,32 +49,17 @@ export default {
         ,saveCustomer(customer){
             this.isLoading=true
 
-            if (customer && customer.id !== ''){
-                return this.$axios.$put(`/Customers/${customer.id}`,customer)
-                .then((response) => {
-                    this.isLoading=false
-                    this.isErrMsg=false
-                    this.feedback='New Customer added!'
-                })
-                .catch((e) => {
-                    this.isLoading=false
-                    this.isErrMsg=true
-                    this.feedback=this.$utils.getError(e)
-                })
-            }else{
-                return this.$axios.$post('/Customers',customer)
-                .then((response) => {
-                    this.isLoading=false
-                    this.isErrMsg=false
-                    this.feedback='Customer updated!'
-                })
-                .catch((e) => {
-                    this.isLoading=false
-                    this.isErrMsg=true
-                    this.feedback=this.$utils.getError(e)
-                })
-
-            }
+            this.$apiManager.doModifyCustomer(customer)
+            .then((response) => {
+                this.isLoading=false
+                this.isErrMsg=false
+                this.feedback= 'Customer saved!'
+            })
+            .catch((e) => {
+                this.isLoading=false
+                this.isErrMsg=true
+                this.feedback=this.$utils.getError(e)
+            })
         }
     }
     ,mounted(){

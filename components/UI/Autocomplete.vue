@@ -25,6 +25,8 @@
   </div>
 </template>
 <script>
+import c from '@/core/costants'
+
   export default {
     name: 'autocomplete'
     ,props: {
@@ -59,14 +61,12 @@
         isLoading:false
       };
     }
-    ,mounted(){
-    }
     ,methods: {
         onChange() {
             // Let's warn the parent that a change was made
             if (this.search.length < 3) return;
 
-            this.$emit('is-typing', this.search);
+            this.$emit(c.EMIT_ACTIONS.IS_TYPING, this.search);
 
             // Is the data given by an outside ajax request?
             if (this.isAsync) {
@@ -83,7 +83,7 @@
         ,setResult(result) {
             this.search = result[this.dataText];
             this.isOpen = false;
-            this.$emit('has-clicked-result', result);
+            this.$emit(c.EMIT_ACTIONS.HAS_CLICKED_RESULT, result);
 
         }
     }
@@ -99,7 +99,7 @@
         }
       },
       initialValue: function(value, oldValue){
-        this.setResult(this.initialValue)
+        this.setResult(value)
       }
     }
   };

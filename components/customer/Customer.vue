@@ -1,6 +1,6 @@
 <template>
     <form>
-        <h2>Add a Customer</h2>
+        <h2>{{ customer && customer.id === '' ? 'Add Customer' : 'Modify Customer' }}</h2>
 
         <div class="form-group">
             <label for="companyName">Company Name</label>
@@ -40,6 +40,8 @@
     </form>
 </template>
 <script>
+import c from '@/core/costants'
+
 export default {
     name:'Customer'
     ,data(){

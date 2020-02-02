@@ -12,7 +12,6 @@
 </template>
 <script>
 import c from '@/core/costants'
-import Feedback from '@/components/UI/Feedback.vue'
 
 export default {
     name:'WorkedHoursList'
@@ -28,9 +27,6 @@ export default {
             ,month:0
         }
     }
-    ,components:{
-        Feedback
-    }
     ,mounted(){
         this.loadCurrentMonth()
     }
@@ -40,10 +36,10 @@ export default {
             clazz.isLoading=true
             clazz.workedHours=[]
             
-            this.$axios.$get(`/workedhours?year=${this.year}&month=${this.month}`)
+            clazz.$apiManager.getWorkedHours(this.year,this.month)
             .then((response) => {
 
-                response.forEach(function(el) {
+                response.data.forEach(function(el) {
                     clazz.workedHours.push(
                         {
                             title:el.project.customer.companyName.substring(0,5).toUpperCase()+': '+el.hours
@@ -53,7 +49,6 @@ export default {
                             /*,color: ...*/
                         })
                 })
-
                 clazz.isLoading=false
             })
             .catch((e) => {

@@ -1,8 +1,8 @@
 <template>
     <div>
-        <div class="panel panel-danger" v-if="message !== null">
-        {{message}}
-        </div>
+
+        <Feedback :feedback="feedback" :isErrMsg="isErrMsg" :isLoading="isLoading" />
+
         <h2>Projects</h2>
         <table class="table">
         <thead>
@@ -39,18 +39,25 @@ export default {
     name:'ProjectsList'
     ,data(){
         return{
-            message:null,
+            feedback:null,
+            isErrMsg:false,
+            isLoading:false,
             projects:[]
         }
     }
     ,mounted(){
+        this.isLoading=true
 
         this.$apiManager.getProjects()
         .then((response) => {            
             this.projects=response.data
+            this.isLoading=false
+            this.feedback=''            
         })
         .catch((e) => {
-            this.message=this.$utils.getError(e)
+            this.isLoading=false
+            this.isErrMsg=true
+            this.feedback=this.$utils.getError(e)
         })
     }
 }

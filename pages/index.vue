@@ -73,7 +73,7 @@ export default {
     }
     ,methods:{
       downloadDetails(projectId, year, month){
-        this.$apiManager.doExportWorkedHoursDetails(projectId, year, month)
+        this.$apiManager.exportWorkedHoursDetails(projectId, year, month)
         .then((response) => {
           //TODO usare libreria esterna per problemi compatibilità altri browser
           const url = window.URL.createObjectURL(new Blob([response.data], {type: 'application/octet-stream'}));

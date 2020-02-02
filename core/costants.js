@@ -10,7 +10,10 @@ export default Object.freeze({
         ,HAS_CLICKED_DEL_WH:'has-clicked-del-wh'
         ,HAS_CLICKED_SAVE_WH:'has-clicked-save-wh'
         ,HAS_CLEARED_DATE:'has-cleared-date'
-        ,HAS_CHANGED_DATE:'has-changed-date'        
+        ,HAS_CHANGED_DATE:'has-changed-date'
+        ,HAS_CLICKED_RESULT:'has-clicked-result'
+        ,IS_TYPING:'is-typing'
+        ,THROW_ERROR:'on-error'        
     }
     ,URLS:{
         TO_ADD_WORKEDHOURS:'/projects/workedhours/hours'

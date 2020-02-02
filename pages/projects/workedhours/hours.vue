@@ -2,7 +2,7 @@
     <div>
         <Feedback :feedback="feedback" :isErrMsg="isErrMsg" :isLoading="isLoading" />
         <WorkedHours
-        v-if="notHasDeleted" 
+        v-if="!wasDeleted" 
         :workedHours="workedHours"
         @has-clicked-save-wh="saveWH"
         @has-clicked-del-wh="deleteWH" />
@@ -10,7 +10,6 @@
 </template>
 <script>
 import WorkedHours from '@/components/project/WorkedHours.vue'
-import Feedback from '@/components/UI/Feedback.vue'
 import c from '@/core/costants'
 
 export default {
@@ -21,7 +20,7 @@ export default {
             ,feedback:''
             ,isErrMsg:false
             ,isLoading:false
-            ,notHasDeleted:true
+            ,wasDeleted:false
             ,workedHours:{
                 id:''
                 ,date:''
@@ -36,17 +35,17 @@ export default {
     }
     ,components:{
         WorkedHours
-        ,Feedback
     }
     ,methods:{
         loadWorkedHours(id){
             this.isErrMsg=false
             this.isLoading=true
 
-            this.$axios.$get(`/workedhours/${id}`)
+            this.$apiManager.getWorkedHoursById(id)
             .then((response) => {
-                this.workedHours=response
+                this.workedHours=response.data
                 this.isLoading=false
+                this.feedback=''
             })
             .catch(e => {
                 this.isErrMsg=true
@@ -66,40 +65,31 @@ export default {
         ,saveWH(wh){
             this.isLoading=true
             
-            if (wh && wh.id !== ''){
-                this.$axios.$put(`/workedhours/${wh.id}`
-                ,wh)
-                .then(response => {
-                    this.isErrMsg=false
-                    this.feedback='Data saved!'
-                })
-                .catch(e => {
-                    this.isErrMsg=true
-                    this.feedback=this.$utils.getError(e)
-                })
-            }else{
-
-                this.$axios.$post('/workedhours'
-                ,wh)
-                .then(response => {
-                    this.isErrMsg=false
-                    this.feedback='Data saved!'
-                })
-                .catch(e => {
-                    this.isErrMsg=true
-                    this.feedback=this.$utils.getError(e)
-                })
-
-            }
-        }
-        ,deleteWH(id){
-            this.$axios.$delete(`/workedhours/${id}`)
-            .then((response) => {
+            this.$apiManager.modifyWorkedHours(wh)
+            .then(response => {
                 this.isErrMsg=false
-                this.feedback='Workedhours deleted'
+                this.isLoading=false
+                this.feedback='Data saved!'
             })
             .catch(e => {
                 this.isErrMsg=true
+                this.isLoading=false
+                this.feedback=this.$utils.getError(e)
+            })
+        }
+        ,deleteWH(id){
+            this.isLoading=true
+
+            this.$apiManager.deleteWorkedHours(id)
+            .then(response => {
+                this.isErrMsg=false
+                this.wasDeleted=true
+                this.isLoading=false
+                this.feedback='Data deleted!'
+            })
+            .catch(e => {
+                this.isErrMsg=true
+                this.isLoading=false
                 this.feedback=this.$utils.getError(e)
             })
         }

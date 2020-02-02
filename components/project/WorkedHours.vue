@@ -66,7 +66,6 @@
 </template>
 <script>
 import c from '@/core/costants'
-import Feedback from '@/components/UI/Feedback.vue'
 
 export default {
     name:'WorkedHours'
@@ -83,9 +82,6 @@ export default {
             type:Object
             ,required:false            
         }
-    }
-    ,components:{
-        Feedback
     }
     ,mounted(){
         if (this.workedHours.date===''){
@@ -119,10 +115,10 @@ export default {
             })
         }        
         ,getProject(val){
-            this.$axios.$get('/projects?q='+val)
+            this.$apiManager.getProjectsByText(val)
             .then((response) => {
                 var data=[]
-                response.forEach(function(el) {
+                response.data.forEach(function(el) {
                     data.push({id:el.id, name: el.customer.companyName+': '+el.name})
                 })
                 this.projects=data

@@ -4,19 +4,28 @@
 
     <Project 
     :project="project"
-    @has-clicked-save-project="saveProject" />   
+    @has-clicked-save-project="saveProject"
+    @on-error="catchError" />   
 </div>
 </template>
 <script>
-import Feedback from '@/components/UI/Feedback.vue'
 import Project from '@/components/project/Project.vue'
-import c from '@/core/costants'
 
 export default {
     name:'ProjectPage'
     ,data(){
         return {
-            project:{}
+            project:{
+                id:'',
+                name:'',
+                startDate:'',
+                endDate:'',
+                totalAmount:0,
+                additionalNotes:'',
+                hourlyRate:0,
+                customerId:'',
+                customer:{}
+            }
             ,feedback:''
             ,isErrMsg:false
             ,isLoading:false
@@ -24,13 +33,12 @@ export default {
     }
     ,components:{
         Project
-        ,Feedback
     }
     ,methods:{
         loadProject(id){
-            this.$axios.$get(`/projects/${id}`)
+            this.$apiManager.getProject(id)
             .then((response) => {
-                this.project=response
+                this.project=response.data
             })
             .catch(e => {
                 this.feedback = this.$utils.getError(e)
@@ -38,44 +46,41 @@ export default {
             })
         }
         ,setEmptyObject(){
-            this.project.id=''
-            this.project.name=''
-            this.project.startDate=''
-            this.project.endDate=''
-            this.project.totalAmount=''
-            this.project.additionalNotes=''
-            this.project.hourlyRate=''
-            this.project.customer=null        
+            this.project=null
         }
         ,saveProject(project){
-            if (project && project.id !== ''){
-                this.$axios.$put(`/projects/${project.id}`
-                ,project)
-                .then(response => {
-                    this.isLoading=false
-                    this.isErrMsg=false
-                    this.feedback='New Project added!'
-                })
-                .catch(e => {
-                    this.isLoading=false
-                    this.isErrMsg=true
-                    this.feedback=this.$utils.getError(e)
-                })
-            }else{
-                this.$axios.$post(`/projects`
-                ,project)
-                .then(response => {
-                    this.isLoading=false
-                    this.isErrMsg=false
-                    this.feedback='Project updated!'
-                })
-                .catch(e => {
-                    this.isLoading=false
-                    this.isErrMsg=true
-                    this.feedback=this.$utils.getError(e)
-                })
+            this.isLoading=true
+            this.isErrMsg=false
+            this.feedback=''
 
+            var prj =
+            {
+                id: project.id,
+                name: project.name,
+                startDate: project.startDate,
+                endDate: project.endDate,
+                totalAmount: project.totalAmount,
+                hourlyRate: project.hourlyRate,
+                additionalNotes: project.additionalNotes,
+                customerId: project.customerId
             }
+            
+            this.$apiManager.modifyProject(prj)
+            .then(response => {
+                this.isLoading=false
+                this.isErrMsg=false
+                this.feedback='Project saved!'
+            })
+            .catch(e => {
+                this.isLoading=false
+                this.isErrMsg=true
+                this.feedback=this.$utils.getError(e)
+            })
+        }
+        ,catchError(error){
+            this.isLoading=false
+            this.isErrMsg=true
+            this.feedback=error
         }
     }
     ,mounted(){

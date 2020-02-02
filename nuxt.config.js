@@ -1,9 +1,5 @@
 import pkg from './package'
 
-const config = {
-  WS: process.env.NODE_ENV !== 'production' ? 'https://localhost:5001/api' : ''
-}
-
 export default {
   mode: 'spa',
 
@@ -61,10 +57,10 @@ export default {
   ** Axios module configuration
   */
   axios: {
-    baseURL: config.WS
+    
   },
   env:{
-    baseURL: config.WS    
+    
   },
   /*
   ** Build configuration

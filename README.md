@@ -4,6 +4,8 @@ Do you need something simple to track hours spent everyday on a customer project
 
 Website developed using [Nuxt](https://nuxtjs.org/)
 
+Don't like Nuxt? No problem, your not tied to it, you can build your own website.
+
 Webservice developed in C# and [netcore](https://dotnet.microsoft.com/download)
 
 Database at your choice, just use the one you prefer on appsettings.json, project CrmApi
@@ -20,10 +22,6 @@ Then run migrations
 ```bash
 dotnet ef database update
 ```
-
-
-
-Don't like Nuxt? No problem, your not tied to it, you can build your own website.
 
 ## Available functionalities
 

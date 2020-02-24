@@ -8,18 +8,20 @@ Webservice developed in C# and [netcore](https://dotnet.microsoft.com/download)
 
 Database at your choice, just use the one you prefer on appsettings.json, project CrmApi
 
-First run migrations
-
-```bash
-dotnet ef database update
-```
-
 ```bash
 "ConnectionStrings": {
     "DefaultConnection": "data source=localhost;Database=crm;User Id=crm;Password=a_complicated_password;multipleactiveresultsets=true;Integrated Security=False",
     //"DefaultConnection": "Server=localhost;Database=crm;User=crm;Password=a_complicated_password;"
   }
 ````
+
+Then run migrations
+
+```bash
+dotnet ef database update
+```
+
+
 
 Don't like Nuxt? No problem, your not tied to it, you can build your own website.
 

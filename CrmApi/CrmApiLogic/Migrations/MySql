@@ -1,0 +1,55 @@
+﻿CREATE TABLE IF NOT EXISTS `__EFMigrationsHistory` (
+    `MigrationId` varchar(95) NOT NULL,
+    `ProductVersion` varchar(32) NOT NULL,
+    CONSTRAINT `PK___EFMigrationsHistory` PRIMARY KEY (`MigrationId`)
+);
+
+CREATE TABLE `Customers` (
+    `Id` char(36) NOT NULL,
+    `Deleted` bit NOT NULL,
+    `CompanyName` nvarchar(500) NOT NULL,
+    `Email` nvarchar(250) NULL,
+    `City` nvarchar(250) NULL,
+    `VAT` nvarchar(20) NULL,
+    `Country` nvarchar(250) NULL,
+    `Town` nvarchar(250) NULL,
+    `PhoneNumber` nvarchar(50) NULL,
+    `CEOName` nvarchar(250) NULL,
+    CONSTRAINT `PK_Customers` PRIMARY KEY (`Id`)
+);
+
+CREATE TABLE `Projects` (
+    `Id` char(36) NOT NULL,
+    `Deleted` bit NOT NULL,
+    `Name` nvarchar(500) NOT NULL,
+    `StartDate` datetime NOT NULL,
+    `EndDate` datetime NULL,
+    `TotalAmount` decimal(18,2) NULL,
+    `HourlyRate` decimal(18,2) NULL,
+    `AdditionalNotes` nvarchar(1000) NULL,
+    `CustomerId` char(36) NOT NULL,
+    CONSTRAINT `PK_Projects` PRIMARY KEY (`Id`),
+    CONSTRAINT `FK_Projects_Customers_CustomerId` FOREIGN KEY (`CustomerId`) REFERENCES `Customers` (`Id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `WorkedHours` (
+    `Id` char(36) NOT NULL,
+    `Deleted` bit NOT NULL,
+    `Hours` float NOT NULL,
+    `Date` datetime NOT NULL,
+    `HourlyRate` decimal(18,2) NULL,
+    `AtCustomerOffice` bit NOT NULL,
+    `AdditionalNotes` nvarchar(1000) NULL,
+    `ProjectId` char(36) NOT NULL,
+    `InvoiceId` char(36) NULL,
+    CONSTRAINT `PK_WorkedHours` PRIMARY KEY (`Id`),
+    CONSTRAINT `FK_WorkedHours_Projects_ProjectId` FOREIGN KEY (`ProjectId`) REFERENCES `Projects` (`Id`) ON DELETE CASCADE
+);
+
+CREATE INDEX `IX_Projects_CustomerId` ON `Projects` (`CustomerId`);
+
+CREATE INDEX `IX_WorkedHours_ProjectId` ON `WorkedHours` (`ProjectId`);
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20200127122442_init-db', '3.1.1');
+

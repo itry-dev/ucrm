@@ -7,20 +7,22 @@ Website developed using [Nuxt](https://nuxtjs.org/)
 Webservice developed in C# and [netcore](https://dotnet.microsoft.com/download)
 
 Database at your choice, just use the one you prefer on appsettings.json, project CrmApi
+
 ```bash
 "ConnectionStrings": {
     "DefaultConnection": "data source=localhost;Database=crm;User Id=crm;Password=a_complicated_password;multipleactiveresultsets=true;Integrated Security=False",
     //"DefaultConnection": "Server=localhost;Database=crm;User=crm;Password=a_complicated_password;"
   }
 ````
+
 Don't like Nuxt? No problem, your not tied to it, you can build your own website.
 
 ## Available functionalities
+
 1. Create / Modify Customers
 2. Create / Modify Projects
 3. Create / Modify Worked Hours, using a calendar
 4. Export worked hours on a csv file
-
 
 Do you have a linux machine? Install the webservice using the script below, this is what I did on my Raspberry PI 4
 
@@ -57,6 +59,12 @@ Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
 WantedBy=multi-user.target
 ```
 
+Installing the service and checking that everything is ok
+
+```bash
+sudo systemctl enable crm_api.service
+sudo systemctl status crm_api.service
+```
 
 ## Nginx webserver? This is the configuration file you need
 

@@ -8,6 +8,12 @@ Webservice developed in C# and [netcore](https://dotnet.microsoft.com/download)
 
 Database at your choice, just use the one you prefer on appsettings.json, project CrmApi
 
+First run migrations
+
+```bash
+dotnet ef database update
+```
+
 ```bash
 "ConnectionStrings": {
     "DefaultConnection": "data source=localhost;Database=crm;User Id=crm;Password=a_complicated_password;multipleactiveresultsets=true;Integrated Security=False",

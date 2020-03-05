@@ -59,9 +59,27 @@ namespace CrmApi.Controllers
         [Route("Export")]
         public async Task<ActionResult<List<WorkedHour>>> ExportDetails(Guid projectId, int year, int month)
         {
+            var project = await RepoWrapper.ProjectRepository.GetById(projectId);
+            if (project == null)
+            {
+                return BadRequest(new ClientErrorData { Title = "Project not found" });
+            }
+
             var ms = await RepoWrapper.WorkedHoursRepository.CreateCsvFile(projectId, year, month);
             var result = new FileContentResult(ms.ToArray(), "application/octet-stream");
-            result.FileDownloadName = "listino.csv";
+
+            if (project.Customer != null && !string.IsNullOrWhiteSpace(project.Customer.CompanyName))
+            {
+                result.FileDownloadName = project.Customer.CompanyName
+                                            .Replace(" ","")
+                                            + ".csv";
+
+            }
+            else
+            {
+                result.FileDownloadName = project.Id + ".csv";
+            }
+
 
             return result;
         }

@@ -21,21 +21,15 @@ export default $context => ({
                         for(const property in error.response.data.errors) {
                             err += error.response.data.errors[property]+'<br />'
                         }
-                    }else if (error.response.data){
-                        err += error.response.data
-                    }
-                }
-
-                if (err===''){
-                    if (error.response.data.title) {
+                    }else if (error.response.data.title) {
                         err=error.response.data.title
-                    }
-                    
-                    if (err===''){
-                        err=error.response.data
-                    }
+                    } 
                 }
                 
+                if (err === ''){
+                    err='An unknown error occured'
+                }
+
                 return err
               }
            }

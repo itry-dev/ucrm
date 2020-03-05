@@ -66,7 +66,7 @@ namespace CrmApiLogic.Repositories
                             csv.WriteField(wh.HourlyRate.HasValue && wh.HourlyRate.Value > 0 ? wh.HourlyRate.ToString() : String.Empty);
                             csv.WriteField(!wh.HourlyRate.HasValue || wh.HourlyRate.Value == 0 ? project.HourlyRate.ToString() : String.Empty);
                             csv.WriteField(wh.AtCustomerOffice);
-                            csv.WriteField(wh.AdditionalNotes);
+                            csv.WriteField(string.IsNullOrWhiteSpace(wh.AdditionalNotes) ? "" :  wh.AdditionalNotes.Replace("\n","").Replace("\r",""));
 
                             if (wh.HourlyRate.HasValue)
                             {

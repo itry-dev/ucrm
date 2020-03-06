@@ -29,9 +29,7 @@ namespace CrmApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), action => action.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null))
-                /*options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), mySqlOptions => mySqlOptions
-                .ServerVersion(new ServerVersion(new Version(8, 0, 19), ServerType.MySql)))*/
+                CrmApi.DbProviderFactory.GetDb(Configuration, options)
 
             /*options.UseInMemoryDatabase("CRM")*/
             );

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CrmApiLogic;
 using CrmApiLogic.Interfaces;
 using CrmApiLogic.Models.Projects;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,7 @@ namespace CrmApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Project>>> GetProjects(string q=null)
         {
             return await RepoWrapper.ProjectRepository.ListAsync(new CrmApiLogic.Specifications.Project.FindProject(q));

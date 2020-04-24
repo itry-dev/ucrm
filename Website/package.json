@@ -5,9 +5,9 @@
   "author": "federico torioli",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt --port 5001",
     "build": "nuxt build",
-    "start": "nuxt start",
+    "start": "nuxt start --port 5001",
     "generate": "nuxt generate",
     "test": "jest"
   },

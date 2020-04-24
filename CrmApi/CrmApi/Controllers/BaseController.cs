@@ -1,5 +1,6 @@
 ﻿using System;
 using CrmApiLogic.Interfaces;
+using CrmApiLogic.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CrmApi.Controllers
@@ -12,5 +13,31 @@ namespace CrmApi.Controllers
         {
             RepoWrapper = repoWrapper;
         }
+    }
+
+    public class UserModel
+    {
+        public Guid Id { get; set; }
+
+        public string Username { get; set; }
+
+        public string Token { get; set; }
+    }
+
+    public class AuthenticateModel
+    {
+        public string Username { get; set; }
+
+        public string Password { get; set; }
+    }
+
+    public class RegisterModel
+    {
+
+    }
+
+    public class UpdateModel
+    {
+
     }
 }

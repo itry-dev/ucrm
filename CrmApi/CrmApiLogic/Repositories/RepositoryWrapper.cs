@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using CrmApiLogic.Interfaces;
+using CrmApiLogic.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace CrmApiLogic.Repositories
 {
@@ -9,11 +11,14 @@ namespace CrmApiLogic.Repositories
         private IProjectRepository _projectRepository;
         private ICustomerRepository _customerRepository;
         private IWorkedHoursRepository _workedHoursRepository;
+        private IUserRepository _userRepository;
 
+        private readonly UserManager<ApplicationUser> _userMng;
 
-        public RepositoryWrapper(DataContext dataContext)
+        public RepositoryWrapper(DataContext dataContext, UserManager<ApplicationUser> userManager)
         {
             _dbContext = dataContext;
+            _userMng = userManager;
         }
 
         public IProjectRepository ProjectRepository
@@ -55,11 +60,18 @@ namespace CrmApiLogic.Repositories
             }
         }
 
-        /*
-        public async Task Save()
+        public IUserRepository UserRepository
         {
-            await _dbContext.SaveChangesAsync();
+            get
+            {
+                if (_userRepository == null)
+                {
+                    _userRepository = new UserRepository(_dbContext, _userMng);
+                }
+
+                return _userRepository;
+            }
         }
-        */
+
     }
 }

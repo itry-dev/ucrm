@@ -7,6 +7,7 @@ namespace CrmApiLogic.Migrations.SqlServer
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            
             migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
@@ -86,6 +87,7 @@ namespace CrmApiLogic.Migrations.SqlServer
                 name: "IX_WorkedHours_ProjectId",
                 table: "WorkedHours",
                 column: "ProjectId");
+                
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

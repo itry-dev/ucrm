@@ -8,6 +8,6 @@ namespace CrmApiLogic.Interfaces
         IProjectRepository ProjectRepository { get; }
         ICustomerRepository CustomerRepository { get; }
         IWorkedHoursRepository WorkedHoursRepository { get; }
-        //Task Save();
+        IUserRepository UserRepository { get; }
     }
 }

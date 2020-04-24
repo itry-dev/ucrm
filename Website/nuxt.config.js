@@ -40,7 +40,7 @@ export default {
     {src:'~/plugins/datepicker.client.js'},
     {src:'~/plugins/calendar.client.js'},
     {src:'~/plugins/utils.js'},
-    {src:'~/plugins/apiManager.js'},
+    {src:'~/plugins/logicManagers.js'},
     {src:'~plugins/format-currency.js'},
   ],
 

@@ -1,3 +1,4 @@
+const BASE_URL = process.env.NODE_ENV === 'production' ? 'http://192.168.1.10:82/api' :'http://localhost:5002/api'
 export default Object.freeze({
     CUSTOMERS_STORE:'modules/customers'
     ,PROJECTS_STORE:'modules/projects'
@@ -22,6 +23,15 @@ export default Object.freeze({
     }
     ,CALENDAR_COLORS:{
         WEEKEND:'#ccc'
+    }
+    ,API_ENDPOINTS:{
+        PROJECTS: BASE_URL + '/projects'
+        ,CUSTOMERS: BASE_URL + '/customers'
+        ,WORKED_HOURS: BASE_URL + '/workedhours'
+        ,WORKED_HOURS_ON_PROJECT: BASE_URL + '/workedhours/workedHoursOnProjects'
+        ,WORKED_HOURS_REPORT: BASE_URL + '/workedhours/Report'
+        ,EXPORT_WORKEDHOURS: BASE_URL + '/workedhours/Export'
+        ,USER_AUTHENTICATE: BASE_URL +'/user/authenticate'
     }
  })
  

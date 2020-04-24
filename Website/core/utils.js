@@ -34,7 +34,7 @@ export default $context => ({
               }
            }
         }else{
-           console.log(error)
+            err='An unknown error occured'
         }
     }
 

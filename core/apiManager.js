@@ -1,7 +1,7 @@
 import c from '@/core/costants'
 import axios from 'axios';
 
-const BASE_URL = process.env.NODE_ENV !== 'production' ? 'http://192.168.1.10:82/api' :'http://localhost:5002/api'
+const BASE_URL = process.env.NODE_ENV === 'production' ? 'http://192.168.1.10:82/api' :'http://localhost:5002/api'
 export default $context => ({
     
     API_ENDPOINTS:{
